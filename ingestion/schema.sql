@@ -36,3 +36,6 @@ CREATE TABLE IF NOT EXISTS chunks (
 
 CREATE INDEX IF NOT EXISTS chunks_tsv_idx      ON chunks USING gin (tsv);
 CREATE INDEX IF NOT EXISTS chunks_document_idx ON chunks (document_id);
+
+-- Added in Stage 2 (created by embed.py after the vectors exist):
+-- CREATE INDEX chunks_embedding_idx ON chunks USING hnsw (embedding vector_cosine_ops);
