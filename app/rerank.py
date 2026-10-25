@@ -1,0 +1,67 @@
+"""Stage 4: rerank hybrid search results with a cross-encoder.
+
+The embedding model compares question and chunk separately (fast, rough).
+A cross-encoder reads them together as one input (slow, accurate), so it
+is only run on the ~20 candidates hybrid search returns.
+
+Usage: python app/rerank.py "Can I take TDIS22 without machine learning?"
+"""
+import sys
+import time
+from functools import lru_cache
+from pathlib import Path
+
+import torch
+from sentence_transformers import CrossEncoder
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from retrieval import get_model, search  # noqa: E402
+
+RERANK_MODEL = "BAAI/bge-reranker-v2-m3"   # multilingual, pairs with bge-m3
+TOP_K = 5
+
+
+@lru_cache(maxsize=1)
+def get_reranker() -> CrossEncoder:
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    return CrossEncoder(RERANK_MODEL, device=device, max_length=512)
+
+
+def passage(r: dict) -> str:
+    """What the reranker reads: where the text comes from, plus the text."""
+    code = f" ({r['course_code']})" if r.get("course_code") else ""
+    return f"{r['title']}{code} | {r['section']}\n{r['text']}"
+
+
+def rerank(question: str, results: list[dict], top_k: int = TOP_K) -> list[dict]:
+    """Score each (question, passage) pair; return the top_k, best first.
+
+    rerank_score is between 0 and 1 (the model applies a sigmoid).
+    Stage 5 uses the best score to decide when to answer "I don't know".
+    """
+    if not results:
+        return []
+    scores = get_reranker().predict([(question, passage(r)) for r in results])
+    for r, s in zip(results, scores):
+        r["rerank_score"] = float(s)
+    return sorted(results, key=lambda r: r["rerank_score"], reverse=True)[:top_k]
+
+
+if __name__ == "__main__":
+    question = " ".join(sys.argv[1:]) or "Can I take TDIS22 without machine learning?"
+    get_model(); get_reranker()          # load both first, so timing excludes loading
+
+    t0 = time.perf_counter()
+    candidates = search(question, top_n=20)
+    t1 = time.perf_counter()
+    before = {r["chunk_id"]: i for i, r in enumerate(candidates, start=1)}
+    top = rerank(question, candidates)
+    t2 = time.perf_counter()
+
+    print(f"Q: {question}")
+    print(f"search {1000 * (t1 - t0):.0f} ms | rerank {1000 * (t2 - t1):.0f} ms "
+          f"for {len(candidates)} candidates\n")
+    for i, r in enumerate(top, start=1):
+        print(f"{i}. {r['rerank_score']:.3f}  (was #{before[r['chunk_id']]:<2}) "
+              f"{r['chunk_id']:34} [{r['section'][:30]}]")
+        print(f"   {r['text'][:140].replace(chr(10), ' ')}...\n")
