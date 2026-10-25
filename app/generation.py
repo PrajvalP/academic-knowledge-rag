@@ -13,6 +13,7 @@ import json
 import os
 import re
 import sys
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -24,13 +25,15 @@ MIN_RERANK_SCORE = 0.3   # below this, no passage really answers: skip the LLM
 TOP_K = 5
 
 SYSTEM_PROMPT = f"""You answer questions from students at Jönköping University.
+Today's date is {{today}}.
 Use ONLY the numbered passages provided. Never use outside knowledge.
 
 Rules:
 - Cite the passage numbers that support each sentence, like [1] or [2][3].
 - If the passages do not contain the answer, set "answer" to exactly:
   "{IDK}" and "citations" to [].
-- If passages from different years disagree, prefer the most recent one and say so.
+- Passages marked "current version" are in force today. Use those. Only use a
+  passage marked "older version" if the question asks about that year.
 - Some passages are in Swedish; answer in English.
 - Be brief: at most 4 sentences.
 
@@ -74,7 +77,8 @@ def format_passages(passages: list[dict]) -> str:
     for n, p in enumerate(passages, start=1):
         code = f" ({p['course_code']})" if p.get("course_code") else ""
         valid = f", valid from {p['valid_from']}" if p.get("valid_from") else ""
-        blocks.append(f"[{n}] {p['title']}{code}, {p['year']}{valid}, "
+        status = "older version" if p.get("superseded") else "current version"
+        blocks.append(f"[{n}] {p['title']}{code}, {p['year']}{valid} ({status}), "
                       f"section \"{p['section']}\", page {p['page_start']}\n{p['text']}")
     return "\n\n".join(blocks)
 
@@ -87,7 +91,7 @@ def parse_json(text: str) -> dict:
 
 def idk(reason: str, passages=None) -> dict:
     return {"answer": IDK, "citations": [], "status": "i_dont_know",
-            "reason": reason, "passages": passages or []}
+            "reason": reason, "warnings": [], "passages": passages or []}
 
 
 def answer(question: str, levels=("public", "student")) -> dict:
@@ -97,7 +101,8 @@ def answer(question: str, levels=("public", "student")) -> dict:
     if not passages or passages[0]["rerank_score"] < MIN_RERANK_SCORE:
         return idk("low_retrieval_score", passages)
 
-    raw = call_llm(SYSTEM_PROMPT, f"Passages:\n\n{format_passages(passages)}"
+    system = SYSTEM_PROMPT.replace("{today}", date.today().isoformat())
+    raw = call_llm(system, f"Passages:\n\n{format_passages(passages)}"
                                   f"\n\nQuestion: {question}")
     try:
         data = parse_json(raw)
@@ -124,8 +129,12 @@ def answer(question: str, levels=("public", "student")) -> dict:
         "page": passages[n - 1]["page_start"],
         "url": passages[n - 1]["source_url"],
     } for n in valid]
+    warnings = []
+    if any(passages[n - 1].get("superseded") for n in valid):
+        warnings.append("This answer uses an older version of a document; "
+                        "check the current version before relying on it.")
     return {"answer": text, "citations": citations, "status": "answered",
-            "reason": None, "passages": passages}
+            "reason": None, "warnings": warnings, "passages": passages}
 
 
 if __name__ == "__main__":
@@ -138,5 +147,7 @@ if __name__ == "__main__":
     for c in result["citations"]:
         code = f" {c['course_code']}" if c["course_code"] else ""
         print(f"  [{c['n']}] {c['title']}{code} ({c['year']}), {c['section']}, p.{c['page']}")
+    for w in result["warnings"]:
+        print(f"WARNING: {w}")
     if result["passages"]:
         print(f"top rerank score: {result['passages'][0]['rerank_score']:.3f}")

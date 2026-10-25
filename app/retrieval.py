@@ -24,6 +24,9 @@ MODEL_NAME = "BAAI/bge-m3"   # must match ingestion/embed.py
 CANDIDATES = 20              # results taken from each search
 RRF_K = 60                   # standard RRF constant: dampens rank differences
 COURSE_CODE = re.compile(r"\b([A-Za-z]{4}\d{2})\b")   # e.g. TARI29, tmls22
+YEAR = re.compile(r"\b(20\d{2})\b")                     # e.g. "the 2024 rules"
+# keep only current versions, unless include_old is true
+CURRENT = "(d.superseded_by IS NULL OR %s)"
 
 load_dotenv(ROOT / ".env")
 
@@ -37,39 +40,39 @@ def get_model() -> SentenceTransformer:
     return model
 
 
-def semantic(cur, q_vec, levels) -> list[int]:
-    cur.execute("""
+def semantic(cur, q_vec, levels, include_old) -> list[int]:
+    cur.execute(f"""
         SELECT c.id FROM chunks c JOIN documents d ON d.id = c.document_id
-        WHERE d.access_level = ANY(%s)
+        WHERE d.access_level = ANY(%s) AND {CURRENT}
         ORDER BY c.embedding <=> %s LIMIT %s
-    """, (levels, q_vec, CANDIDATES))
+    """, (levels, include_old, q_vec, CANDIDATES))
     return [r[0] for r in cur.fetchall()]
 
 
-def keyword(cur, question, levels) -> list[int]:
+def keyword(cur, question, levels, include_old) -> list[int]:
     # plainto_tsquery joins words with AND (&). A natural question rarely
     # contains every word of a passage, so switch to OR (|) and let ts_rank
     # put passages matching more words first.
-    cur.execute("""
+    cur.execute(f"""
         WITH q AS (
             SELECT to_tsquery('english',
                    replace(plainto_tsquery('english', %s)::text, '&', '|')) AS query
         )
         SELECT c.id FROM chunks c JOIN documents d ON d.id = c.document_id, q
-        WHERE d.access_level = ANY(%s) AND c.tsv @@ q.query
+        WHERE d.access_level = ANY(%s) AND {CURRENT} AND c.tsv @@ q.query
         ORDER BY ts_rank(c.tsv, q.query) DESC LIMIT %s
-    """, (question, levels, CANDIDATES))
+    """, (question, levels, include_old, CANDIDATES))
     return [r[0] for r in cur.fetchall()]
 
 
-def course(cur, codes, q_vec, levels) -> list[int]:
+def course(cur, codes, q_vec, levels, include_old) -> list[int]:
     if not codes:
         return []
-    cur.execute("""
+    cur.execute(f"""
         SELECT c.id FROM chunks c JOIN documents d ON d.id = c.document_id
-        WHERE d.access_level = ANY(%s) AND d.course_code = ANY(%s)
+        WHERE d.access_level = ANY(%s) AND d.course_code = ANY(%s) AND {CURRENT}
         ORDER BY c.embedding <=> %s LIMIT %s
-    """, (levels, codes, q_vec, CANDIDATES))
+    """, (levels, codes, include_old, q_vec, CANDIDATES))
     return [r[0] for r in cur.fetchall()]
 
 
@@ -86,15 +89,17 @@ def search(question: str, levels=("public", "student"), top_n: int = 20) -> list
     """Return the top_n chunks for a question, best first."""
     levels = list(levels)
     codes = sorted({c.upper() for c in COURSE_CODE.findall(question)})
+    # a question naming a year ("the 2024 syllabus") may need old versions
+    include_old = bool(YEAR.search(question))
     q_vec = get_model().encode(question, normalize_embeddings=True)
 
     with psycopg.connect(os.environ["DATABASE_URL"]) as conn:
         register_vector(conn)
         with conn.cursor() as cur:
             rankings = {
-                "semantic": semantic(cur, q_vec, levels),
-                "keyword": keyword(cur, question, levels),
-                "course": course(cur, codes, q_vec, levels),
+                "semantic": semantic(cur, q_vec, levels, include_old),
+                "keyword": keyword(cur, question, levels, include_old),
+                "course": course(cur, codes, q_vec, levels, include_old),
             }
             scores = rrf(rankings)
             best = sorted(scores, key=scores.get, reverse=True)[:top_n]
@@ -102,7 +107,8 @@ def search(question: str, levels=("public", "student"), top_n: int = 20) -> list
                 return []
             cur.execute("""
                 SELECT c.id, c.chunk_id, c.section, c.page_start, c.page_end, c.text,
-                       d.title, d.course_code, d.year, d.valid_from, d.source_url
+                       d.title, d.course_code, d.year, d.valid_from, d.source_url,
+                       d.superseded_by IS NOT NULL AS superseded
                 FROM chunks c JOIN documents d ON d.id = c.document_id
                 WHERE c.id = ANY(%s)
             """, (best,))
