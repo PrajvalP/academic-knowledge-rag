@@ -12,3 +12,8 @@ data/processed/*
 
 # local output
 logs/
+
+# editor and AI-tool settings (personal, not project code)
+.vscode/
+.claude/
+.agents/
