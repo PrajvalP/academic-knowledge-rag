@@ -1,0 +1,1474 @@
+{
+  "mode": "full",
+  "min_rerank_score": 0.3,
+  "results": [
+    {
+      "id": "c01",
+      "category": "course",
+      "role": "student",
+      "question": "What are the prerequisites for Deep Learning (TDIS22)?",
+      "should_answer": true,
+      "expected_answer": "90 credits in Computer Engineering/Computer Science/Electrical Engineering or 150 credits from Computer Science and Engineering, plus completed Artificial Intelligence, Mathematics for Intelligent Systems and Machine Learning (7.5 credits each) or equivalent; English proficiency.",
+      "seconds": 7.42,
+      "top_score": 0.998,
+      "top_files": [
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Passed courses of at least 90 credits within the major subject Computer Engineering, Computer Science, or Electrical Engineering (with relevant Computer Engineering courses), or equivalent, or at least 150 credits from the Computer Science and Engineering programme. Students must also have completed Artificial Intelligence (7.5 credits), Mathematics for Intelligent Systems (7.5 credits), and Machine Learning (7.5 credits) or equivalent, and provide proof of English proficiency.",
+      "idk_reason": null,
+      "cited_files": [
+        "tdis22_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c02",
+      "category": "course",
+      "role": "student",
+      "question": "How is TARI29 graded?",
+      "should_answer": true,
+      "expected_answer": "5, 4, 3 or U; final grade only after all assessments are completed.",
+      "seconds": 2.4,
+      "top_score": 0.933,
+      "top_files": [
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tari29_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "TARI29 (Artificial Intelligence, 7.5 credits) is graded 5, 4, 3 or U. The final grade is based on a balanced set of assessments and is only issued after all assessments are satisfactorily completed. The Examination (5 credits) and Assignment (2.5 credits) are each graded 5/4/3/U.",
+      "idk_reason": null,
+      "cited_files": [
+        "tari29_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c03",
+      "category": "course",
+      "role": "student",
+      "question": "What grading scale does the Communication and Artificial Intelligence course use?",
+      "should_answer": true,
+      "expected_answer": "A, B, C, D, E, FX or F; A to E are passing grades.",
+      "seconds": 2.25,
+      "top_score": 0.927,
+      "top_files": [
+        "laik15_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "The Communication and Artificial Intelligence (LAIK15) course is graded A, B, C, D, E, FX or F, where A to E are passing grades [1]. The registration table also lists A/B/C/D/E/FX/F for the individual written exam and individual written assignment, while the group presentation is graded U/G [3].",
+      "idk_reason": null,
+      "cited_files": [
+        "laik15_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c04",
+      "category": "course",
+      "role": "student",
+      "question": "What do I need before taking Mathematical Statistics?",
+      "should_answer": true,
+      "expected_answer": "General entry requirements and completed Single Variable Calculus, 7.5 credits, or equivalent.",
+      "seconds": 1.81,
+      "top_score": 0.413,
+      "top_files": [
+        "tmsk17_syllabus_2024.pdf",
+        "tmsk17_syllabus_2024.pdf",
+        "tmsk17_syllabus_2024.pdf",
+        "tmsk17_syllabus_2024.pdf",
+        "tmsk17_syllabus_2024.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "You need the general entry requirements and the completed course Single Variable Calculus, 7.5 credits (or the equivalent) [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "tmsk17_syllabus_2024.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c05",
+      "category": "course",
+      "role": "student",
+      "question": "How is the Ethics of Artificial Intelligence course examined?",
+      "should_answer": true,
+      "expected_answer": "Active participation in seminars and group discussions, and three assignments; graded 5, 4, 3 or U.",
+      "seconds": 2.16,
+      "top_score": 0.994,
+      "top_files": [
+        "tair22_syllabus_2026.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tair22_syllabus_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "The course is graded 5, 4, 3 or U. Examination consists of active participation in seminars and group discussions, plus three assignments: an investigation of a fairness-related ethical challenge in a practical case, and two debate assignments (for or against an ethical topic), one a group presentation and one a written assignment. The final grade requires satisfactory completion of all assessments.",
+      "idk_reason": null,
+      "cited_files": [
+        "tair22_syllabus_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c06",
+      "category": "course",
+      "role": "student",
+      "question": "How is the final project in computer science examined?",
+      "should_answer": true,
+      "expected_answer": "Written report, oral presentation, opposition on another group's work, and mandatory elements; graded 5, 4, 3 or Fail.",
+      "seconds": 4.12,
+      "top_score": 0.957,
+      "top_files": [
+        "texv23_syllabus_2024.pdf",
+        "texv23_syllabus_2024.pdf",
+        "texv23_syllabus_2024.pdf",
+        "thesis_rules_2022.pdf",
+        "texv23_syllabus_2024.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "The final project in computer science (TEXV23) is graded 5, 4, 3 or Fail and is examined through a written report, an oral presentation of the report, a review and discussion of another group's work (opponering), and fulfilment of mandatory elements. The grade is set according to a special assessment template. The report is weighted most heavily in the assessment [2][4].",
+      "idk_reason": null,
+      "cited_files": [
+        "texv23_syllabus_2024.pdf",
+        "thesis_rules_2022.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c07",
+      "category": "course",
+      "role": "student",
+      "question": "Does the Deep Learning course include a project?",
+      "should_answer": true,
+      "expected_answer": "Yes: one project with tutoring and two project seminars (design and final presentation).",
+      "seconds": 2.04,
+      "top_score": 0.864,
+      "top_files": [
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tmls22_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Yes, the Deep Learning course includes one project, along with project tutoring and two project seminars [1]. The project is worth 5.5 credits and is graded 5/4/3/U [4].",
+      "idk_reason": null,
+      "cited_files": [
+        "tdis22_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c08",
+      "category": "course",
+      "role": "student",
+      "question": "Which language is the Artificial Intelligence course TARI29 taught in?",
+      "should_answer": true,
+      "expected_answer": "English.",
+      "seconds": 2.95,
+      "top_score": 0.974,
+      "top_files": [
+        "tari29_syllabus_2025.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "The Artificial Intelligence course TARI29 is taught in English [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "tari29_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c09",
+      "category": "course",
+      "role": "student",
+      "question": "What topics does TARI29 cover?",
+      "should_answer": true,
+      "expected_answer": "Traditional AI and search, reasoning under uncertainty, evolutionary optimization, intelligent agents, game theory and minimax, Markov decision processes.",
+      "seconds": 2.19,
+      "top_score": 0.99,
+      "top_files": [
+        "tari29_syllabus_2025.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "TARI29 covers traditional AI (GOFAI) topics such as problem representation, production systems, search, planning, expert systems, automated reasoning, and logic [1]. It also includes reasoning under uncertainty, evolutionary programming for optimization, intelligent agents, basic game theory with minimax, and agents for Markov decision processes [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "tari29_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c10",
+      "category": "course",
+      "role": "student",
+      "question": "What are the entry requirements for Mathematics for Intelligent Systems?",
+      "should_answer": true,
+      "expected_answer": "Bachelor's degree (180 credits) with at least 90 credits in Computer Engineering, Computer Science, Informatics, Information Systems, IT or Electrical Engineering, or equivalent, including at least 15 credits of mathematics.",
+      "seconds": 2.51,
+      "top_score": 0.998,
+      "top_files": [
+        "tmar21_syllabus_2026.pdf",
+        "tmar21_syllabus_2026.pdf",
+        "tmls22_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tmar21_syllabus_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Applicants need a bachelor's degree (180 ECTS credits from an accredited university) with at least 90 credits in Computer Engineering, Computer Science, Informatics, Information Systems, Information Technology, or Electrical Engineering (with relevant computer engineering courses), or equivalent. The degree must include at least 15 credits in mathematics, and proof of English proficiency is required.",
+      "idk_reason": null,
+      "cited_files": [
+        "tmar21_syllabus_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c11",
+      "category": "course",
+      "role": "student",
+      "question": "Can the credit requirements for the final project work be waived?",
+      "should_answer": true,
+      "expected_answer": "The programme manager can grant an exemption from the points requirements, but not from the required Bachelor degree.",
+      "seconds": 2.57,
+      "top_score": 0.635,
+      "top_files": [
+        "texv23_syllabus_2024.pdf",
+        "thesis_rules_2022.pdf",
+        "thesis_rules_2022.pdf",
+        "thesis_rules_2022.pdf",
+        "thesis_rules_2022.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Yes, the programme manager can grant an exemption from the points requirements under the prerequisites. However, no exemption will be made to the required Bachelor degree.",
+      "idk_reason": null,
+      "cited_files": [
+        "texv23_syllabus_2024.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c12",
+      "category": "course",
+      "role": "student",
+      "question": "When can I start my final project work?",
+      "should_answer": true,
+      "expected_answer": "After the examiner's approval.",
+      "seconds": 2.71,
+      "top_score": 0.901,
+      "top_files": [
+        "thesis_rules_2022.pdf",
+        "thesis_rules_2022.pdf",
+        "texv23_syllabus_2024.pdf",
+        "thesis_rules_2022.pdf",
+        "thesis_rules_2022.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "You can start your final project work after your registration form and project description have been approved by the examiner [2][3]. You must also meet the prerequisites in the course syllabus and, if applicable, contact the client before submitting the registration form to the course coordinator [1]. If you do not receive approval within the time given in the study guide, you are referred to the next course start [2].",
+      "idk_reason": null,
+      "cited_files": [
+        "texv23_syllabus_2024.pdf",
+        "thesis_rules_2022.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c13",
+      "category": "course",
+      "role": "student",
+      "question": "Which courses must I have taken before Intelligent Optimization and Problem Solving?",
+      "should_answer": true,
+      "expected_answer": "Artificial Intelligence, 7.5 credits, among the listed courses, plus 90 credits in Computer Engineering/Electrical Engineering or 150 credits from Computer Science and Engineering.",
+      "seconds": 2.3,
+      "top_score": 0.986,
+      "top_files": [
+        "tios26_syllabus_2026.pdf",
+        "tios26_syllabus_2026.pdf",
+        "tios26_syllabus_2026.pdf",
+        "tios26_syllabus_2026.pdf",
+        "tios26_syllabus_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "You must have passed at least 90 credits within the major subject Computer Engineering, Electrical Engineering (with relevant courses in Computer Engineering), or equivalent, or at least 150 credits from Computer Science and Engineering. You must also have taken Artificial Intelligence, 7.5 credits, and Knowledge Representation and the Semantic Web, 7.5 credits, or equivalent. Proof of English proficiency is also required.",
+      "idk_reason": null,
+      "cited_files": [
+        "tios26_syllabus_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c14",
+      "category": "course",
+      "role": "student",
+      "question": "How is the final grade decided in Deep Learning?",
+      "should_answer": true,
+      "expected_answer": "Graded 5, 4, 3 or Fail; project credits come from the report, two presentations and active participation in two seminars.",
+      "seconds": 2.36,
+      "top_score": 0.966,
+      "top_files": [
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tmls22_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "In Deep Learning (TDIS22), the course is graded 5, 4, 3 or Fail [1]. The final grade is determined by the presentations and the project report [1]. The report grade is based on both its collaborative part and the individual part [1]. The final course grade is issued only when all course units have been passed [2].",
+      "idk_reason": null,
+      "cited_files": [
+        "tdis22_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "c15",
+      "category": "course",
+      "role": "student",
+      "question": "What kind of teaching does Data Science Programming have?",
+      "should_answer": true,
+      "expected_answer": "Lectures, quizzes, assignments, workshops and tutoring, in English.",
+      "seconds": 2.08,
+      "top_score": 0.941,
+      "top_files": [
+        "tdps22_syllabus_2025.pdf",
+        "tdps22_syllabus_2025.pdf",
+        "tdps22_syllabus_2025.pdf",
+        "tdps22_syllabus_2025.pdf",
+        "tdps22_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Data Science Programming is taught through lectures, quizzes, assignments, workshops and tutoring, and the teaching is conducted in English [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "tdps22_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p01",
+      "category": "policy",
+      "role": "student",
+      "question": "What happens if I am late to my exam?",
+      "should_answer": true,
+      "expected_answer": "Doors are closed and locked 10 minutes before the exam starts; be on site no later than 10 minutes before.",
+      "seconds": 3.07,
+      "top_score": 0.95,
+      "top_files": [
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "education_regulations_brju_2023.pdf",
+        "exam_regulations_2025.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "If you arrive late, you can usually be admitted only at the second admission, when 30 minutes of the exam have passed (9:30 AM or 2:30 PM). You must show your ID and will be told your seat number [1][2]. If you arrive more than 30 minutes late, you will not be allowed to take the exam, and no excuses are accepted [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "exam_regulations_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p02",
+      "category": "policy",
+      "role": "student",
+      "question": "How many days before an exam must I register?",
+      "should_answer": true,
+      "expected_answer": "No later than 10 days before; unregistered students cannot take the exam.",
+      "seconds": 2.07,
+      "top_score": 0.986,
+      "top_files": [
+        "exam_regulations_2025.pdf",
+        "education_regulations_brju_2023.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "You must register no later than 10 days before the examination date. [1][2]",
+      "idk_reason": null,
+      "cited_files": [
+        "education_regulations_brju_2023.pdf",
+        "exam_regulations_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p03",
+      "category": "policy",
+      "role": "student",
+      "question": "Which IDs are accepted at exams?",
+      "should_answer": true,
+      "expected_answer": "Valid Swedish driver's license, Swedish passport, Swedish national ID card, or JU card marked Identity Card; valid foreign passports under conditions.",
+      "seconds": 2.63,
+      "top_score": 0.999,
+      "top_files": [
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Accepted exam IDs are a valid Swedish driver's license, a valid Swedish passport, a valid Swedish national ID card, or a valid JU card marked \"Identity Card\" [1]. Foreign passports must be valid, plastic wrapped, and written in English, French, or Spanish [1]. BankID and Freja eID+ are not accepted because they are not physical identification [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "exam_regulations_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p04",
+      "category": "policy",
+      "role": "student",
+      "question": "Can I identify myself with BankID at an exam?",
+      "should_answer": true,
+      "expected_answer": "No. BankID and Freja eID+ are not physical identification.",
+      "seconds": 2.83,
+      "top_score": 0.984,
+      "top_files": [
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "No. BankID does not count as physical identification and is not accepted as valid ID during exams. Without an approved physical ID you cannot take the examination and will be dismissed from the exam hall.",
+      "idk_reason": null,
+      "cited_files": [
+        "exam_regulations_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p05",
+      "category": "policy",
+      "role": "student",
+      "question": "Can I bring snacks into the exam hall?",
+      "should_answer": true,
+      "expected_answer": "Food and drinks are allowed, but no nuts, smelly or smudging food, and no fragrances.",
+      "seconds": 2.71,
+      "top_score": 0.891,
+      "top_files": [
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Yes, you can bring food and drinks into the exam halls. However, nuts or foods containing nuts are not allowed, and neither are foods that smell or smudge [1]. Food and drinks may be kept on the desk along with permitted aids and your ID [2].",
+      "idk_reason": null,
+      "cited_files": [
+        "exam_regulations_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p06",
+      "category": "policy",
+      "role": "student",
+      "question": "When am I allowed to leave the exam hall?",
+      "should_answer": true,
+      "expected_answer": "Not during the first 30 minutes.",
+      "seconds": 3.44,
+      "top_score": 0.994,
+      "top_files": [
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "You may not leave the exam hall during the first 30 minutes [1]. After that, you may leave only for restroom visits, and only with permission from an invigilator [2]. If you use an outside restroom, you must record your anonymous code and time on the restroom list [1]. Leaving without permission, or for any reason other than a restroom visit, means your exam is cancelled [1][2].",
+      "idk_reason": null,
+      "cited_files": [
+        "exam_regulations_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p07",
+      "category": "policy",
+      "role": "student",
+      "question": "How long does it take to get my exam results?",
+      "should_answer": true,
+      "expected_answer": "Results are reported via Ladok no later than 20 working days after the exam, except for special reasons.",
+      "seconds": 2.8,
+      "top_score": 0.77,
+      "top_files": [
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Exam results are normally notified to students through Ladok no later than 20 working days after the examination occasion. If special reasons exist, results may be given later, but no later than 14 days before the next examination occasion, and students must be notified in writing of the delay.",
+      "idk_reason": null,
+      "cited_files": [
+        "education_regulations_brju_2023.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p08",
+      "category": "policy",
+      "role": "student",
+      "question": "Can I keep my student accommodation during a study break?",
+      "should_answer": true,
+      "expected_answer": "No.",
+      "seconds": 2.88,
+      "top_score": 0.985,
+      "top_files": [
+        "study_break_2024.pdf",
+        "tuition_fees_2026.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "tuition_fees_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "No. If you are on a study break, you are not allowed to keep your student accommodation [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "study_break_2024.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p09",
+      "category": "policy",
+      "role": "student",
+      "question": "What does a study break mean for my residence permit?",
+      "should_answer": true,
+      "expected_answer": "JU informs the Migration Agency, which revokes the residence permit, so the student must leave Sweden.",
+      "seconds": 2.97,
+      "top_score": 0.719,
+      "top_files": [
+        "study_break_2024.pdf",
+        "tuition_fees_2026.pdf",
+        "tuition_fees_2026.pdf",
+        "tuition_fees_2026.pdf",
+        "tuition_fees_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "If a study break is approved, Jönköping University informs the Swedish Migration Agency, which will revoke your residence permit, and you must then leave Sweden [1]. It is recommended to speak with your study counsellor before applying so you understand this consequence [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "study_break_2024.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p10",
+      "category": "policy",
+      "role": "student",
+      "question": "What disciplinary measures can be taken against a student?",
+      "should_answer": true,
+      "expected_answer": "Warning, exclusion from examinations, and suspension; expulsion is also possible.",
+      "seconds": 2.64,
+      "top_score": 0.967,
+      "top_files": [
+        "appeals_decisions_2023.pdf",
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "The disciplinary measures that can be taken against a student are a warning, exclusion from examinations, and suspension [4]. A student may also be expelled from studies on specified grounds [5]. Decisions to issue a warning or suspension, or to expel a student, can be appealed to the Board of Appeals [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "appeals_decisions_2023.pdf",
+        "disciplinary_committee_2018.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p11",
+      "category": "policy",
+      "role": "student",
+      "question": "Which decisions can I appeal to the Board of Appeals?",
+      "should_answer": true,
+      "expected_answer": "Disciplinary Committee decisions (warning, suspension, expulsion) and listed faculty/school decisions.",
+      "seconds": 7.16,
+      "top_score": 0.995,
+      "top_files": [
+        "appeals_decisions_2023.pdf",
+        "appeals_decisions_2023.pdf",
+        "appeals_board_instructions_2023.pdf",
+        "disciplinary_committee_2018.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "You can appeal Disciplinary Committee decisions to give a warning or suspension [1]. You can also appeal faculty decisions made through Study Administration, such as rejecting an applicant for not meeting entry requirements, refusing an exception or deferred enrolment, transferring credits [1][5], refusing a degree or course certificate (except for indefinite suspension due to unpaid fees), or withdrawing admission due to incorrect information from the applicant [1]. Other appealable decisions include refusing exemption from a compulsory element, refusing leave from studies, withdrawing a doctoral student's supervision rights [1], and refusing a tuition fee refund based on special circumstances [2]. Decisions appealable under the Discrimination Act are also included [1][4], but the 2018 instructions state that a Committee expulsion decision may not be appealed [4], which conflicts with the 2023 list [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "appeals_decisions_2023.pdf",
+        "disciplinary_committee_2018.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "p12",
+      "category": "policy",
+      "role": "student",
+      "question": "How do I pay the application fee for a local admission?",
+      "should_answer": true,
+      "expected_answer": "To JU, by approved bank card (VISA/MasterCard) via the web payment system.",
+      "seconds": 2.86,
+      "top_score": 0.994,
+      "top_files": [
+        "tuition_fees_2026.pdf",
+        "tuition_fees_2026.pdf",
+        "tuition_fees_2026.pdf",
+        "tuition_fees_2026.pdf",
+        "tuition_fees_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "For local admissions, the application fee is paid to Jönköping University (JU). You can pay with an approved bank card (VISA/MasterCard) through the web-based payment solution in the online application form, or in another manner agreed upon with JU. It must be paid no later than the deadline for supplementary information.",
+      "idk_reason": null,
+      "cited_files": [
+        "tuition_fees_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "e01",
+      "category": "exact",
+      "role": "student",
+      "question": "What does § 5 of the disciplinary committee instructions say?",
+      "should_answer": true,
+      "expected_answer": "The disciplinary measures are warning, exclusion from examinations and suspension.",
+      "seconds": 3.02,
+      "top_score": 0.987,
+      "top_files": [
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Section 5 lists the applicable disciplinary measures as warning, exclusion from examinations, and suspension. A warning is communicated in writing. Exclusion from examinations applies to a continuous period not exceeding six months, and suspension applies to one or more periods totalling no more than six months. Any decision must state its grounds.",
+      "idk_reason": null,
+      "cited_files": [
+        "disciplinary_committee_2018.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "e02",
+      "category": "exact",
+      "role": "student",
+      "question": "What does section 2.15 of the education regulations say about grades?",
+      "should_answer": true,
+      "expected_answer": "Results are notified via Ladok within 20 working days of the examination.",
+      "seconds": 3.14,
+      "top_score": 0.624,
+      "top_files": [
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Section 2.15 says exam results must be notified to students through Ladok within 20 working days of the exam. If there are special reasons, the notification may be delayed, but no later than 14 days before the next exam occasion, and students must be told in writing. The examiner is responsible for reporting results to Ladok.",
+      "idk_reason": null,
+      "cited_files": [
+        "education_regulations_brju_2023.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "e03",
+      "category": "exact",
+      "role": "student",
+      "question": "What are the TARI29 entry requirements?",
+      "should_answer": true,
+      "expected_answer": "Bachelor's degree (180 credits) with at least 90 credits in Computer Engineering, Computer Science or Electrical Engineering, or 150 credits from Computer Science and Engineering.",
+      "seconds": 2.28,
+      "top_score": 0.998,
+      "top_files": [
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Applicants need a minimum bachelor's degree (180 ECTS) with at least 90 credits in Computer Engineering, Computer Science or Electrical Engineering (or equivalent), or 150 credits from Computer Science and Engineering. The degree must include at least 15 credits in mathematics, and proof of English proficiency is required.",
+      "idk_reason": null,
+      "cited_files": [
+        "tari29_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "e04",
+      "category": "exact",
+      "role": "student",
+      "question": "What is LAIK15 about?",
+      "should_answer": true,
+      "expected_answer": "Media and communication and artificial intelligence, including representations of AI and generative AI in media.",
+      "seconds": 2.43,
+      "top_score": 0.838,
+      "top_files": [
+        "laik15_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "LAIK15, Communication and Artificial Intelligence (7.5 credits), is a first-cycle course in Media and Communication Science that examines artificial intelligence in media and communication contexts. Its contents include research perspectives on AI, media and cultural industries, generative AI as a tool for producing texts, representations of AI, and the impact of AI in different contexts [3][4]. Students learn to describe and critically reflect on the opportunities and limitations of AI in these contexts [1][5].",
+      "idk_reason": null,
+      "cited_files": [
+        "laik15_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "e05",
+      "category": "exact",
+      "role": "student",
+      "question": "Is TDPS22 taught in English?",
+      "should_answer": true,
+      "expected_answer": "Yes.",
+      "seconds": 1.92,
+      "top_score": 0.992,
+      "top_files": [
+        "tdps22_syllabus_2025.pdf",
+        "tdps22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tdps22_syllabus_2025.pdf",
+        "tdsr22_syllabus_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Yes, the Data Science Programming (TDPS22) course is taught in English [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "tdps22_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "e06",
+      "category": "exact",
+      "role": "student",
+      "question": "What does § 28 of the disciplinary committee instructions allow?",
+      "should_answer": true,
+      "expected_answer": "A decision may always be appealed to the Board of Appeals if it contravenes the Discrimination Act.",
+      "seconds": 4.51,
+      "top_score": 0.787,
+      "top_files": [
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf",
+        "disciplinary_committee_2018.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Section 28 allows a decision to be appealed to the Board of Appeals at any time, on the grounds that it contravenes specified provisions of the Discrimination Act (2008:567). The passage also states that a decision about expulsion made by the Committee may not be appealed. The text of § 28 is cut off in the passage, so the full list of grounds is not available.",
+      "idk_reason": null,
+      "cited_files": [
+        "disciplinary_committee_2018.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "v01",
+      "category": "version",
+      "role": "student",
+      "question": "Can I take Machine Learning (TMLS22) if my major is Computer Science?",
+      "should_answer": true,
+      "expected_answer": "Yes: the current (2025) syllabus includes Computer Science among the accepted majors; the 2024 version did not.",
+      "seconds": 2.84,
+      "top_score": 0.983,
+      "top_files": [
+        "tmls22_syllabus_2025.pdf",
+        "tmls22_syllabus_2025.pdf",
+        "tmls22_syllabus_2025.pdf",
+        "tris22_syllabus_2025.pdf",
+        "tmls22_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Possibly. Having Computer Science as your major is not enough on its own. You need at least 90 credits within your major subject (or 150 credits from the Computer Science and Engineering programme), plus completed courses in Artificial Intelligence (7.5 credits) and Mathematics for Intelligent Systems (7.5 credits) or equivalent. You also need proof of English proficiency.",
+      "idk_reason": null,
+      "cited_files": [
+        "tmls22_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "v02",
+      "category": "version",
+      "role": "student",
+      "question": "What are the current entry requirements for the Artificial Intelligence course?",
+      "should_answer": true,
+      "expected_answer": "As in the 2025 syllabus (valid from 2025-09-01).",
+      "seconds": 2.77,
+      "top_score": 0.97,
+      "top_files": [
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tmls22_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Applicants need a bachelor's degree (180 ECTS) with at least 90 credits in Computer Engineering, Computer Science, or Electrical Engineering (with relevant computer engineering courses), or equivalent, or at least 150 credits from the Computer Science and Engineering programme. The degree must include at least 15 credits in mathematics. Proof of English proficiency is also required.",
+      "idk_reason": null,
+      "cited_files": [
+        "tari29_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "v03",
+      "category": "version",
+      "role": "student",
+      "question": "What are the current prerequisites for Deep Learning?",
+      "should_answer": true,
+      "expected_answer": "As in the 2025 syllabus (valid from 2025-01-01).",
+      "seconds": 3.1,
+      "top_score": 0.886,
+      "top_files": [
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf",
+        "tmls22_syllabus_2025.pdf",
+        "tdis22_syllabus_2025.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "To take Deep Learning (TDIS22), you need at least 90 credits in a major subject such as Computer Engineering, Computer Science, or Electrical Engineering (with relevant Computer Engineering courses), or equivalent, or at least 150 credits from the Computer Science and Engineering programme. You also need completed Artificial Intelligence (7.5 credits), Mathematics for Intelligent Systems (7.5 credits), and Machine Learning (7.5 credits), or equivalent. Proof of English proficiency is required [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "tdis22_syllabus_2025.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "v04",
+      "category": "version",
+      "role": "student",
+      "question": "How is Ethics of AI examined this year?",
+      "should_answer": true,
+      "expected_answer": "As in the 2026 syllabus (valid from 2026-08-31).",
+      "seconds": 2.99,
+      "top_score": 0.874,
+      "top_files": [
+        "tair22_syllabus_2026.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tair22_syllabus_2026.pdf",
+        "tair22_syllabus_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "The course is examined through active participation in seminars and group discussions, plus three assignments. The first is an investigation of a fairness-related ethical challenge in a practical case. The second and third involve debating a relevant ethical topic for or against, with one being a group presentation and one a written assignment. The course is graded 5, 4, 3, or U, and the final grade requires satisfactory completion of all assessments.",
+      "idk_reason": null,
+      "cited_files": [
+        "tair22_syllabus_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "v05",
+      "category": "version",
+      "role": "student",
+      "question": "What are the current entry requirements for Data Science (TDSR22)?",
+      "should_answer": true,
+      "expected_answer": "As in the 2026 syllabus (valid from 2026-08-31).",
+      "seconds": 4.35,
+      "top_score": 0.994,
+      "top_files": [
+        "tdsr22_syllabus_2026.pdf",
+        "tdsr22_syllabus_2026.pdf",
+        "tdps22_syllabus_2025.pdf",
+        "tdsr22_syllabus_2026.pdf",
+        "tdsr22_syllabus_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Applicants need a bachelor's degree (180 ECTS) with at least 90 credits in Computer Engineering, Computer Science, Informatics, Information Systems, Information Technology, or Electrical Engineering (with relevant computer engineering courses), or equivalent. Alternatively, 150 credits from the Computer Science and Engineering programme are accepted. The degree must include at least 15 credits in mathematics, and proof of English proficiency is required [1].",
+      "idk_reason": null,
+      "cited_files": [
+        "tdsr22_syllabus_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "r01",
+      "category": "permission",
+      "role": "student",
+      "question": "What share of points do examiners require for grade 5?",
+      "should_answer": false,
+      "expected_answer": "Student must not see the staff grading guideline: I don't know.",
+      "seconds": 1.15,
+      "top_score": 0.026,
+      "top_files": [
+        "tari29_syllabus_2025.pdf",
+        "tdsr22_syllabus_2026.pdf",
+        "tmar21_syllabus_2026.pdf",
+        "education_regulations_brju_2023.pdf",
+        "thesis_rules_2022.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "r02",
+      "category": "permission",
+      "role": "professor",
+      "question": "What share of points do examiners require for grade 5?",
+      "should_answer": true,
+      "expected_answer": "85 percent.",
+      "seconds": 2.32,
+      "top_score": 0.939,
+      "top_files": [
+        "synthetic_staff_grading_guidelines_2026.pdf",
+        "synthetic_staff_grading_guidelines_2026.pdf",
+        "synthetic_staff_grading_guidelines_2026.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tdsr22_syllabus_2026.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Examiners require at least 85% of the total points for grade 5, unless the course syllabus states otherwise. [1]",
+      "idk_reason": null,
+      "cited_files": [
+        "synthetic_staff_grading_guidelines_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "r03",
+      "category": "permission",
+      "role": "student",
+      "question": "What similarity score triggers a manual plagiarism review?",
+      "should_answer": false,
+      "expected_answer": "Student must not see the staff plagiarism procedure: I don't know.",
+      "seconds": 1.2,
+      "top_score": 0.002,
+      "top_files": [
+        "laik15_syllabus_2025.pdf",
+        "texv23_syllabus_2024.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "tair22_syllabus_2026.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "r04",
+      "category": "permission",
+      "role": "professor",
+      "question": "What similarity score triggers a manual plagiarism review?",
+      "should_answer": true,
+      "expected_answer": "Above 25 percent, excluding references and quoted text.",
+      "seconds": 2.02,
+      "top_score": 0.976,
+      "top_files": [
+        "synthetic_staff_plagiarism_case_handling_2026.pdf",
+        "synthetic_staff_plagiarism_case_handling_2026.pdf",
+        "synthetic_staff_plagiarism_case_handling_2026.pdf",
+        "laik15_syllabus_2025.pdf",
+        "texv23_syllabus_2024.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "A similarity score above 25 percent, excluding references and quoted text, should be reviewed manually. A similarity score alone is never sufficient evidence, so the examiner must identify the specific passages and sources.",
+      "idk_reason": null,
+      "cited_files": [
+        "synthetic_staff_plagiarism_case_handling_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "r05",
+      "category": "permission",
+      "role": "student",
+      "question": "When must the first re-exam be booked with the exam office?",
+      "should_answer": false,
+      "expected_answer": "Student must not see the staff re-exam procedure: I don't know.",
+      "seconds": 1.04,
+      "top_score": 0.015,
+      "top_files": [
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "r06",
+      "category": "permission",
+      "role": "professor",
+      "question": "When must the first re-exam be booked with the exam office?",
+      "should_answer": true,
+      "expected_answer": "Within 10 working days of the ordinary exam.",
+      "seconds": 1.65,
+      "top_score": 0.998,
+      "top_files": [
+        "synthetic_staff_reexam_scheduling_2026.pdf",
+        "synthetic_staff_reexam_scheduling_2026.pdf",
+        "synthetic_staff_reexam_scheduling_2026.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "The first re-exam must be booked with the exam office within 10 working days of the ordinary exam.",
+      "idk_reason": null,
+      "cited_files": [
+        "synthetic_staff_reexam_scheduling_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "r07",
+      "category": "permission",
+      "role": "professor",
+      "question": "What response rate is needed before course evaluation results are published?",
+      "should_answer": false,
+      "expected_answer": "Professor must not see the admin-only procedure: I don't know.",
+      "seconds": 1.04,
+      "top_score": 0.065,
+      "top_files": [
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "laik15_syllabus_2025.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "r08",
+      "category": "permission",
+      "role": "admin",
+      "question": "What response rate is needed before course evaluation results are published?",
+      "should_answer": true,
+      "expected_answer": "At least 20 percent or at least 8 responses, whichever is lower.",
+      "seconds": 2.04,
+      "top_score": 0.992,
+      "top_files": [
+        "synthetic_admin_course_evaluation_procedures_2026.pdf",
+        "synthetic_admin_course_evaluation_procedures_2026.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": true,
+      "decision_ok": true,
+      "answered": true,
+      "answer": "Results are published to students when the response rate is at least 20 percent or at least 8 responses, whichever is lower.",
+      "idk_reason": null,
+      "cited_files": [
+        "synthetic_admin_course_evaluation_procedures_2026.pdf"
+      ],
+      "citation_ok": true,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "u01",
+      "category": "unanswerable",
+      "role": "student",
+      "question": "What is the best pizza place in Jönköping?",
+      "should_answer": false,
+      "expected_answer": "I don't know.",
+      "seconds": 1.4,
+      "top_score": 0.001,
+      "top_files": [
+        "appeals_decisions_2023.pdf",
+        "qualifications_2026.pdf",
+        "education_regulations_brju_2023.pdf",
+        "qualifications_2026.pdf",
+        "disciplinary_committee_2018.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "u02",
+      "category": "unanswerable",
+      "role": "student",
+      "question": "How many re-exam attempts do I get?",
+      "should_answer": false,
+      "expected_answer": "Not stated in the public documents: I don't know.",
+      "seconds": 0.98,
+      "top_score": 0.127,
+      "top_files": [
+        "laik15_syllabus_2025.pdf",
+        "laik15_syllabus_2025.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf",
+        "education_regulations_brju_2023.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "u03",
+      "category": "unanswerable",
+      "role": "student",
+      "question": "What will the weather be like in Jönköping tomorrow?",
+      "should_answer": false,
+      "expected_answer": "I don't know.",
+      "seconds": 1.32,
+      "top_score": 0.0,
+      "top_files": [
+        "disciplinary_committee_2018.pdf",
+        "qualifications_2026.pdf",
+        "appeals_decisions_2023.pdf",
+        "qualifications_2026.pdf",
+        "qualifications_2026.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "u04",
+      "category": "unanswerable",
+      "role": "student",
+      "question": "Who teaches TARI29 this year?",
+      "should_answer": false,
+      "expected_answer": "Teachers are not named in the syllabus: I don't know.",
+      "seconds": 1.3,
+      "top_score": 0.106,
+      "top_files": [
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tari29_syllabus_2025.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "u05",
+      "category": "unanswerable",
+      "role": "student",
+      "question": "How much is the tuition fee for the AI Engineering master's in SEK?",
+      "should_answer": false,
+      "expected_answer": "Amounts are not stated in the documents: I don't know.",
+      "seconds": 1.32,
+      "top_score": 0.047,
+      "top_files": [
+        "tuition_fees_2026.pdf",
+        "tuition_fees_2026.pdf",
+        "tuition_fees_2026.pdf",
+        "tari29_syllabus_2025.pdf",
+        "tuition_fees_2026.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "u06",
+      "category": "unanswerable",
+      "role": "student",
+      "question": "Can I bring my dog to the exam?",
+      "should_answer": false,
+      "expected_answer": "Not covered: I don't know.",
+      "seconds": 0.9,
+      "top_score": 0.022,
+      "top_files": [
+        "education_regulations_brju_2023.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf",
+        "exam_regulations_2025.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    },
+    {
+      "id": "u07",
+      "category": "unanswerable",
+      "role": "student",
+      "question": "What time does the library open on Sundays?",
+      "should_answer": false,
+      "expected_answer": "I don't know.",
+      "seconds": 1.14,
+      "top_score": 0.004,
+      "top_files": [
+        "exam_regulations_2025.pdf",
+        "education_regulations_brju_2023.pdf",
+        "disciplinary_committee_2018.pdf",
+        "exam_regulations_2025.pdf",
+        "disciplinary_committee_2018.pdf"
+      ],
+      "hit_at_5": null,
+      "decision_ok": true,
+      "answered": false,
+      "answer": "I do not know based on the available documents.",
+      "idk_reason": "low_retrieval_score",
+      "cited_files": [],
+      "citation_ok": null,
+      "cited_outdated": false,
+      "leaked": false
+    }
+  ]
+}

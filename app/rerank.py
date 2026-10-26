@@ -16,6 +16,7 @@ from sentence_transformers import CrossEncoder
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from retrieval import get_model, search  # noqa: E402
+from tracing import get_client, observe  # noqa: E402
 
 RERANK_MODEL = "BAAI/bge-reranker-v2-m3"   # multilingual, pairs with bge-m3
 TOP_K = 5
@@ -33,6 +34,7 @@ def passage(r: dict) -> str:
     return f"{r['title']}{code} | {r['section']}\n{r['text']}"
 
 
+@observe(name="rerank", capture_input=False, capture_output=False)
 def rerank(question: str, results: list[dict], top_k: int = TOP_K) -> list[dict]:
     """Score each (question, passage) pair; return the top_k, best first.
 
@@ -44,7 +46,12 @@ def rerank(question: str, results: list[dict], top_k: int = TOP_K) -> list[dict]
     scores = get_reranker().predict([(question, passage(r)) for r in results])
     for r, s in zip(results, scores):
         r["rerank_score"] = float(s)
-    return sorted(results, key=lambda r: r["rerank_score"], reverse=True)[:top_k]
+    top = sorted(results, key=lambda r: r["rerank_score"], reverse=True)[:top_k]
+    get_client().update_current_span(
+        input={"question": question, "candidates": len(results)},
+        output=[{"chunk_id": r["chunk_id"], "score": round(r["rerank_score"], 3)} for r in top],
+    )
+    return top
 
 
 if __name__ == "__main__":

@@ -19,6 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from rerank import rerank      # noqa: E402
 from retrieval import search   # noqa: E402
+from tracing import get_client, llm_cost, observe  # noqa: E402
 
 IDK = "I do not know based on the available documents."
 MIN_RERANK_SCORE = 0.3   # below this, no passage really answers: skip the LLM
@@ -41,6 +42,7 @@ Reply with JSON only, no other text:
 {{"answer": "...", "citations": [1, 2]}}"""
 
 
+@observe(name="llm", as_type="generation", capture_input=False, capture_output=False)
 def call_llm(system: str, user: str) -> str:
     """Send one prompt to the configured provider and return its text."""
     provider = os.environ.get("LLM_PROVIDER", "anthropic").lower()
@@ -55,7 +57,10 @@ def call_llm(system: str, user: str) -> str:
         )
         # the reply is a list of blocks; some models add a "thinking" block
         # before the answer, so keep only the text blocks
-        return "".join(b.text for b in msg.content if b.type == "text")
+        text = "".join(b.text for b in msg.content if b.type == "text")
+        record_generation(msg.model, user, text,
+                          msg.usage.input_tokens, msg.usage.output_tokens)
+        return text
 
     if provider == "openai":
         from openai import OpenAI
@@ -67,9 +72,21 @@ def call_llm(system: str, user: str) -> str:
             messages=[{"role": "system", "content": system},
                       {"role": "user", "content": user}],
         )
-        return resp.choices[0].message.content
+        text = resp.choices[0].message.content
+        record_generation(resp.model, user, text,
+                          resp.usage.prompt_tokens, resp.usage.completion_tokens)
+        return text
 
     raise ValueError(f"Unknown LLM_PROVIDER: {provider}")
+
+
+def record_generation(model, prompt, text, input_tokens, output_tokens):
+    """Send model, tokens and cost of one LLM call to the trace."""
+    get_client().update_current_generation(
+        model=model, input=prompt, output=text,
+        usage_details={"input": input_tokens, "output": output_tokens},
+        cost_details=llm_cost(input_tokens, output_tokens),
+    )
 
 
 def format_passages(passages: list[dict]) -> str:
@@ -94,7 +111,25 @@ def idk(reason: str, passages=None) -> dict:
             "reason": reason, "warnings": [], "passages": passages or []}
 
 
+@observe(name="answer", capture_output=False)
 def answer(question: str, levels=("public", "student")) -> dict:
+    """The traced entry point: run the pipeline, then record the outcome."""
+    result = _answer(question, levels)
+    top = result["passages"][0]["rerank_score"] if result["passages"] else 0.0
+    client = get_client()
+    client.update_current_span(output={
+        "answer": result["answer"], "status": result["status"],
+        "citations": [f"{c['title']} ({c['year']}) p.{c['page']}" for c in result["citations"]],
+        "warnings": result["warnings"],
+    })
+    # scores feed the dashboard: outcome, why "I don't know", retrieval strength
+    client.score_current_trace(name="outcome", value=result["status"])
+    client.score_current_trace(name="idk_reason", value=result["reason"] or "none")
+    client.score_current_trace(name="top_rerank_score", value=float(top))
+    return result
+
+
+def _answer(question: str, levels=("public", "student")) -> dict:
     passages = rerank(question, search(question, levels=levels), top_k=TOP_K)
 
     # Gate 1: nothing relevant enough, so don't even ask the LLM (saves cost)
@@ -151,3 +186,4 @@ if __name__ == "__main__":
         print(f"WARNING: {w}")
     if result["passages"]:
         print(f"top rerank score: {result['passages'][0]['rerank_score']:.3f}")
+    get_client().flush()   # send traces before the script exits

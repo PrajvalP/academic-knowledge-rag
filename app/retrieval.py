@@ -19,6 +19,9 @@ from dotenv import load_dotenv
 from pgvector.psycopg import register_vector
 from sentence_transformers import SentenceTransformer
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from tracing import get_client, observe  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 MODEL_NAME = "BAAI/bge-m3"   # must match ingestion/embed.py
 CANDIDATES = 20              # results taken from each search
@@ -85,6 +88,7 @@ def rrf(rankings: dict[str, list[int]]) -> dict[int, float]:
     return scores
 
 
+@observe(name="hybrid_search", as_type="retriever", capture_output=False)
 def search(question: str, levels=("public", "student"), top_n: int = 20) -> list[dict]:
     """Return the top_n chunks for a question, best first."""
     levels = list(levels)
@@ -123,6 +127,12 @@ def search(question: str, levels=("public", "student"), top_n: int = 20) -> list
         row["ranks"] = {name: (ids.index(chunk_id) + 1 if chunk_id in ids else None)
                         for name, ids in rankings.items()}
         results.append(row)
+
+    get_client().update_current_span(
+        output=[r["chunk_id"] for r in results],
+        metadata={"found": {k: len(v) for k, v in rankings.items()},
+                  "course_codes": codes, "include_old": include_old},
+    )
     return results
 
 

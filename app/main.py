@@ -23,6 +23,7 @@ from auth import User, authenticate, create_token, get_current_user, require_rol
 from generation import answer  # noqa: E402
 from rerank import get_reranker  # noqa: E402
 from retrieval import get_model  # noqa: E402
+from tracing import propagate_attributes  # noqa: E402
 
 
 @asynccontextmanager
@@ -97,7 +98,9 @@ def login(form: OAuth2PasswordRequestForm = Depends()):
 @app.post("/ask", response_model=AskResponse)
 def ask(req: AskRequest, user: User = Depends(get_current_user)):
     """Answer a question using only documents this user's role may see."""
-    result = answer(req.question, levels=user.levels)
+    with propagate_attributes(user_id=str(user.id), tags=["api", user.role],
+                              metadata={"role": user.role}, trace_name="ask"):
+        result = answer(req.question, levels=user.levels)
     return AskResponse(
         answer=result["answer"], status=result["status"], reason=result["reason"],
         citations=result["citations"], warnings=result["warnings"],

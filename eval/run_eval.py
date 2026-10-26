@@ -22,6 +22,7 @@ load_dotenv(ROOT / ".env")
 from generation import MIN_RERANK_SCORE, answer  # noqa: E402
 from rerank import rerank                         # noqa: E402
 from retrieval import search                      # noqa: E402
+from tracing import get_client, propagate_attributes  # noqa: E402
 
 from auth import ROLE_LEVELS                     # noqa: E402
 
@@ -37,7 +38,9 @@ def run_one(t: dict, use_llm: bool) -> dict:
     t0 = time.perf_counter()
 
     if use_llm:
-        res = answer(t["question"], levels=levels)
+        with propagate_attributes(tags=["eval", t["category"], t["role"]],
+                                  metadata={"test_id": t["id"]}, trace_name="eval"):
+            res = answer(t["question"], levels=levels)
         passages = res["passages"]
         answered = res["status"] == "answered"
         cited = [c for c in res["citations"]]
@@ -123,6 +126,7 @@ def main():
         "mode": mode, "min_rerank_score": MIN_RERANK_SCORE, "results": results,
     }, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     print(f"\nSaved {out.relative_to(ROOT)}")
+    get_client().flush()   # send traces before the script exits
 
 
 if __name__ == "__main__":
