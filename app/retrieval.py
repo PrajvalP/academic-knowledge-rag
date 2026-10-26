@@ -10,20 +10,17 @@ Usage: python app/retrieval.py "can I take TDIS22 without machine learning?"
 import os
 import re
 import sys
-from functools import lru_cache
 from pathlib import Path
 
 import psycopg
-import torch
 from dotenv import load_dotenv
 from pgvector.psycopg import register_vector
-from sentence_transformers import SentenceTransformer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from models import embed_query  # noqa: E402
 from tracing import get_client, observe  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-MODEL_NAME = "BAAI/bge-m3"   # must match ingestion/embed.py
 CANDIDATES = 20              # results taken from each search
 RRF_K = 60                   # standard RRF constant: dampens rank differences
 COURSE_CODE = re.compile(r"\b([A-Za-z]{4}\d{2})\b")   # e.g. TARI29, tmls22
@@ -32,15 +29,6 @@ YEAR = re.compile(r"\b(20\d{2})\b")                     # e.g. "the 2024 rules"
 CURRENT = "(d.superseded_by IS NULL OR %s)"
 
 load_dotenv(ROOT / ".env")
-
-
-@lru_cache(maxsize=1)
-def get_model() -> SentenceTransformer:
-    """Load the model once and reuse it (loading takes seconds)."""
-    device = "mps" if torch.backends.mps.is_available() else "cpu"
-    model = SentenceTransformer(MODEL_NAME, device=device)
-    model.max_seq_length = 512
-    return model
 
 
 def semantic(cur, q_vec, levels, include_old) -> list[int]:
@@ -95,7 +83,7 @@ def search(question: str, levels=("public", "student"), top_n: int = 20) -> list
     codes = sorted({c.upper() for c in COURSE_CODE.findall(question)})
     # a question naming a year ("the 2024 syllabus") may need old versions
     include_old = bool(YEAR.search(question))
-    q_vec = get_model().encode(question, normalize_embeddings=True)
+    q_vec = embed_query(question)   # local model or API, see models.py
 
     with psycopg.connect(os.environ["DATABASE_URL"]) as conn:
         register_vector(conn)

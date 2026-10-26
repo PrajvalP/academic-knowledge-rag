@@ -21,16 +21,14 @@ from pydantic import BaseModel, Field  # noqa: E402
 
 from auth import User, authenticate, create_token, get_current_user, require_role  # noqa: E402
 from generation import answer  # noqa: E402
-from rerank import get_reranker  # noqa: E402
-from retrieval import get_model  # noqa: E402
+from models import backend, warm_up  # noqa: E402
 from tracing import propagate_attributes  # noqa: E402
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # load both models at startup, so the first question isn't slow
-    get_model()
-    get_reranker()
+    # local mode: load both models at startup, so the first question isn't slow
+    warm_up()
     yield
 
 
@@ -81,7 +79,7 @@ class Document(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "model_backend": backend()}
 
 
 @app.post("/auth/login", response_model=Token)
