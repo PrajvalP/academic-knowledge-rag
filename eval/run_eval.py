@@ -23,12 +23,7 @@ from generation import MIN_RERANK_SCORE, answer  # noqa: E402
 from rerank import rerank                         # noqa: E402
 from retrieval import search                      # noqa: E402
 
-# Which access levels each role may search (Stage 6 moves this into the API)
-ROLE_LEVELS = {
-    "student":   ["public", "student"],
-    "professor": ["public", "student", "professor"],
-    "admin":     ["public", "student", "professor", "admin"],
-}
+from auth import ROLE_LEVELS                     # noqa: E402
 
 
 def chunk_file(chunk_id: str) -> str:

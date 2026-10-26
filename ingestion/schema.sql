@@ -39,3 +39,12 @@ CREATE INDEX IF NOT EXISTS chunks_document_idx ON chunks (document_id);
 
 -- Added in Stage 2 (created by embed.py after the vectors exist):
 -- CREATE INDEX chunks_embedding_idx ON chunks USING hnsw (embedding vector_cosine_ops);
+
+-- Added in Stage 6: users who can log in to the API.
+CREATE TABLE IF NOT EXISTS users (
+    id            SERIAL PRIMARY KEY,
+    email         TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,                 -- bcrypt hash, never the password
+    role          TEXT NOT NULL
+                  CHECK (role IN ('student', 'professor', 'admin'))
+);
