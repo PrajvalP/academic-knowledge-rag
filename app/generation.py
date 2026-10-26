@@ -50,7 +50,9 @@ def call_llm(system: str, user: str) -> str:
 
     if provider == "anthropic":
         import anthropic
-        client = anthropic.Anthropic()   # reads ANTHROPIC_API_KEY
+        # open_telemetry=False: the SDK would otherwise send its own span to
+        # Langfuse too, and every call (and its cost) would be counted twice
+        client = anthropic.Anthropic(open_telemetry=False)   # reads ANTHROPIC_API_KEY
         msg = client.messages.create(
             model=model or "claude-haiku-5-5", max_tokens=2000,  # room for thinking + answer
             system=system, messages=[{"role": "user", "content": user}],
