@@ -65,11 +65,16 @@ def main():
         register_vector(src)
         register_vector(dst)   # needs the vector extension, created by the schema
 
-        # 2. empty the target, then copy (documents first: chunks point to them)
-        dst.execute("TRUNCATE users, chunks, documents RESTART IDENTITY CASCADE")
+        # 2. empty the content tables, then copy (documents first: chunks point to them)
+        dst.execute("TRUNCATE chunks, documents RESTART IDENTITY CASCADE")
         copy_table(src, dst, "documents", DOC_COLS)
         copy_table(src, dst, "chunks", CHUNK_COLS)
-        copy_table(src, dst, "users", USER_COLS)
+        # users are only copied the first time: production has its own passwords
+        # (set with seed_users.py), which must not be overwritten by local ones
+        if dst.execute("SELECT count(*) FROM users").fetchone()[0] == 0:
+            copy_table(src, dst, "users", USER_COLS)
+        else:
+            print("  users: kept the existing production users")
 
         # 3. superseded_by points from one document to another, so it is
         #    copied after all documents exist
@@ -91,9 +96,11 @@ def main():
                   "SELECT count(*) FROM documents WHERE superseded_by IS NOT NULL",
                   "SELECT count(*) FROM chunks",
                   "SELECT count(*) FROM chunks WHERE embedding IS NOT NULL",
-                  "SELECT count(*) FROM users"]:
+                  ]:
             a, b = src.execute(q).fetchone()[0], dst.execute(q).fetchone()[0]
-            print(f"  {'OK ' if a == b else 'DIFF'} {a:4} / {b:4}  {q[21:]}")
+            print(f"  {'OK ' if a == b else 'DIFF'} {a:5} / {b:5}  {q[21:]}")
+        size = dst.execute("SELECT pg_size_pretty(pg_database_size(current_database()))").fetchone()[0]
+        print(f"\nNeon database size: {size} (free plan limit: 1 GB)")
 
 
 if __name__ == "__main__":
