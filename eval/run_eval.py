@@ -49,10 +49,17 @@ def run_one(t: dict, use_llm: bool) -> dict:
         }
         output = res["answer"]
         reason = res["reason"]
+        # for general questions: does the answer say which course its rule is from?
+        names_course = None
+        if t.get("must_name_course") and answered:
+            text = output.lower()
+            names_course = any(
+                (c.get("course_code") or "").lower() in text and c.get("course_code")
+                or c["title"].lower() in text for c in res["citations"])
     else:
         passages = rerank(t["question"], search(t["question"], levels=levels))
         answered = bool(passages) and passages[0]["rerank_score"] >= MIN_RERANK_SCORE
-        cited_files, output, reason = set(), None, None
+        cited_files, output, reason, names_course = set(), None, None, None
 
     top_files = [chunk_file(p["chunk_id"]) for p in passages]
     return {
@@ -72,6 +79,7 @@ def run_one(t: dict, use_llm: bool) -> dict:
         "citation_ok": (bool(expected & cited_files)
                         if use_llm and answered and expected else None),
         "cited_outdated": bool(outdated & cited_files) if use_llm else None,
+        "names_course": names_course,
         # did a restricted document leak to a role that may not see it?
         "leaked": any("synthetic" in f for f in top_files) and not t["should_answer"]
                   and t["category"] == "permission",
@@ -108,10 +116,14 @@ def main():
     if use_llm:
         print(f"cited an outdated version: {sum(bool(r['cited_outdated']) for r in results)}")
     print(f"restricted documents leaked: {sum(r['leaked'] for r in results)}")
+    named = [r["names_course"] for r in results if r["names_course"] is not None]
+    if named:
+        print(f"ambiguous answers naming their course: {sum(named)}/{len(named)}")
     print(f"average seconds per question: {sum(r['seconds'] for r in results) / len(results):.1f}")
 
     failures = [r for r in results if not r["decision_ok"] or r["hit_at_5"] is False
-                or r["citation_ok"] is False or r["cited_outdated"]]
+                or r["citation_ok"] is False or r["cited_outdated"]
+                or r["names_course"] is False]
     print(f"\n=== {len(failures)} failures ===")
     for r in failures:
         print(f"{r['id']}: {r['question']}")

@@ -35,6 +35,9 @@ Rules:
   "{IDK}" and "citations" to [].
 - Passages marked "current version" are in force today. Use those. Only use a
   passage marked "older version" if the question asks about that year.
+- A course syllabus states rules for ONE course only. If the question does not
+  name a course and your answer relies on a syllabus, say which course(s) the
+  rule comes from (name and code), and that other courses may differ.
 - Some passages are in Swedish; answer in English.
 - Be brief: at most 4 sentences.
 
