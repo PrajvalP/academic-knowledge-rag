@@ -29,8 +29,9 @@ def find_valid_from(elements: list[dict]) -> str | None:
     m = re.search(r"Valid From:\s*([A-Z][a-z]{2} \d{1,2}, \d{4})", text)
     if m:
         return datetime.strptime(m.group(1), "%b %d, %Y").date().isoformat()
-    # some schools give a semester instead: "Valid From: Spring 2025"
-    m = re.search(r"Valid From:\s*(Spring|Autumn)\s+(\d{4})", text)
+    # some schools give a semester instead: "Valid From: Spring 2025"; programme
+    # syllabi say "Programmestart: Autumn 2026" (applies to students starting then)
+    m = re.search(r"(?:Valid From|Programmestart):\s*(Spring|Autumn)\s+(\d{4})", text)
     if m:
         month = "01" if m.group(1) == "Spring" else "08"
         return f"{m.group(2)}-{month}-01"
@@ -45,6 +46,31 @@ def split_long(text: str) -> list[str]:
     step = MAX_WORDS - OVERLAP_WORDS
     return [" ".join(words[i:i + MAX_WORDS]) for i in range(0, len(words), step)
             if words[i:i + MAX_WORDS]]
+
+
+def split_table(table: str) -> list[str]:
+    """Split an oversized markdown table into row groups, each with the header.
+
+    Programme syllabi have long course tables. The embedding model and the
+    reranker read at most 512 tokens, so the last rows of a huge table would
+    be cut off. Each piece repeats the header, so it is a readable table alone.
+    """
+    if len(table.split()) <= MAX_WORDS:
+        return [table]
+    lines = table.splitlines()
+    header, rows = lines[:2], lines[2:]          # header row + |---| separator
+    header_words = len(" ".join(header).split())
+    pieces, group, size = [], [], header_words
+    for row in rows:
+        n = len(row.split())
+        if group and size + n > MAX_WORDS:
+            pieces.append("\n".join(header + group))
+            group, size = [], header_words
+        group.append(row)
+        size += n
+    if group:
+        pieces.append("\n".join(header + group))
+    return pieces
 
 
 def sections(elements: list[dict]):
@@ -67,8 +93,9 @@ def chunk_section(heading: str, body: list[dict]):
     """Pack a section's elements into chunks of at most MAX_WORDS."""
     parts, pages, size = [], [], 0
     for e in body:
-        # tables stay whole; other long elements are cut into windows
-        pieces = [e["text"]] if e["type"] == "table" else split_long(e["text"])
+        # tables are split by rows (header repeated); other long elements
+        # are cut into overlapping word windows
+        pieces = split_table(e["text"]) if e["type"] == "table" else split_long(e["text"])
         for piece in pieces:
             n = len(piece.split())
             if parts and size + n > MAX_WORDS:
