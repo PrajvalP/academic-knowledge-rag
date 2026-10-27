@@ -1,0 +1,15 @@
+# Backend in production (MODEL_BACKEND=api): no torch, no Docling.
+# Versions match the ones tested locally (see requirements.txt).
+fastapi==0.162.0
+uvicorn==0.54.0
+pydantic==2.14.1
+python-multipart==0.0.32
+PyJWT==2.15.1
+bcrypt==5.0.0
+psycopg[binary]==3.3.6
+pgvector==0.5.1
+numpy==2.5.4
+requests==2.34.2
+python-dotenv==1.2.4
+anthropic==2.3.0
+langfuse==5.0.4
