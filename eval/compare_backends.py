@@ -24,6 +24,13 @@ import models  # noqa: E402
 QUESTIONS = [json.loads(l)["question"] for l in (ROOT / "eval" / "testset.jsonl").open()][::5]
 
 
+def as_array(vec) -> np.ndarray:
+    """pgvector may return its own Vector type; numpy needs a plain array."""
+    if hasattr(vec, "to_numpy"):
+        return vec.to_numpy().astype(np.float32)
+    return np.asarray(vec, dtype=np.float32)
+
+
 def with_backend(mode: str, func, *args):
     """Run one function with MODEL_BACKEND temporarily set to mode."""
     old = os.environ.get("MODEL_BACKEND")
@@ -45,7 +52,7 @@ def main():
         register_vector(conn)
         rows = conn.execute("SELECT chunk_id, embed_text, embedding FROM chunks "
                             "ORDER BY random() LIMIT 10").fetchall()
-    sims = [float(np.dot(stored, with_backend("api", models.embed_query, text)))
+    sims = [float(np.dot(as_array(stored), with_backend("api", models.embed_query, text)))
             for _, text, stored in rows]
     print("1. Stored chunk vectors vs API embeddings (cosine; 1.000 = identical)")
     print(f"   min {min(sims):.4f}  mean {np.mean(sims):.4f}\n")
