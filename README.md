@@ -166,3 +166,7 @@ python eval/run_eval.py                                # 58-question evaluation
 ## Data
 
 Syllabi and policies are public documents from [ju.se](https://ju.se); `data/manifest.csv` lists each document's source URL. The PDFs are not stored in this repository. The four `synthetic_*` documents are fictional and clearly labelled as such.
+
+## License
+
+The code is released under the [MIT License](LICENSE). The syllabi and policies are Jönköping University documents and are not covered by this licence.
