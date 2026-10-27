@@ -20,3 +20,4 @@ logs/
 
 # harvester progress (local working file)
 data/raw/harvest_state.json
+data/raw/harvest_programmes_state.json
