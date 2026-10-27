@@ -1,6 +1,6 @@
 # academic-knowledge-rag
 
-A production-grade RAG assistant that answers questions about Jönköping University course syllabi and academic policies, covering **all 778 English-taught courses (2024–2026)**. **Every answer cites its source document and page**, users only see documents their role allows, outdated syllabus versions are never used by mistake, and when the documents don't contain the answer it says **"I don't know"** instead of guessing.
+A production-grade RAG assistant that answers questions about Jönköping University course syllabi and academic policies, covering **all 778 English-taught courses and 61 English-taught programmes (2024–2026)**. **Every answer cites its source document and page**, users only see documents their role allows, outdated syllabus versions are never used by mistake, and when the documents don't contain the answer it says **"I don't know"** instead of guessing.
 
 **Live demo:** https://academic-knowledge-rag-vkuqfq2bwaznayuodq474y.streamlit.app/  
 **API docs:** https://academic-knowledge-rag.onrender.com/docs
@@ -21,6 +21,7 @@ A production-grade RAG assistant that answers questions about Jönköping Univer
 | *What share of points do examiners require for grade 5?* | Student: "I don't know". Professor: 85% (staff-only document) |
 | *What is the best pizza place in Jönköping?* | "I don't know" without calling the LLM |
 | *How many re-exam attempts do I get?* | No course named, so it says which courses the rule comes from and that others may differ |
+| *I started the AI Engineering master's in autumn 2024. How many first-year credits do I need to start year 2?* | Programme rules apply per start year: 30 credits from the 2024 syllabus, not 37.5 from the current one |
 
 ---
 
@@ -41,7 +42,7 @@ flowchart LR
     DB --- F
 ```
 
-1. **Ingestion:** 1,112 documents (1,096 course syllabi, 12 policies, 4 synthetic staff documents) are extracted with Docling, keeping page numbers and headings. Scanned pages fall back to OCR. Text is split under its headings into 9,969 chunks, each prefixed with course, year and section before embedding. A harvester collects every English-taught syllabus from JU's course catalogue, politely (one request per second) and resumably, skipping duplicates by SHA-256.
+1. **Ingestion:** 1,296 documents (1,096 course syllabi, 184 programme syllabi, 12 policies, 4 synthetic staff documents) are extracted with Docling, keeping page numbers and headings. Scanned pages fall back to OCR. Text is split under its headings into 14,102 chunks (tables too long for the embedding model are split by rows, repeating the header), each prefixed with course, year and section before embedding. A harvester collects every English-taught course and programme syllabus from JU's catalogues, politely (one request per second) and resumably, skipping duplicates by SHA-256.
 2. **Hybrid search:** semantic search (pgvector), Postgres full-text search and a course-code match each return 20 candidates; Reciprocal Rank Fusion merges them.
 3. **Reranking:** a cross-encoder (`bge-reranker-v2-m3`) rescores the candidates by reading question and passage together; the top 5 go to the LLM.
 4. **Two gates against hallucination:** if the best passage scores below 0.3, the LLM is never called. If the LLM's answer has no valid citation, it's replaced with "I don't know". Citations are checked in code, not trusted from the prompt.
@@ -52,7 +53,9 @@ flowchart LR
 | --- | --- |
 | **Role-based access control** | FastAPI + bcrypt passwords + JWT tokens. The user's role becomes a filter **inside the SQL query**, so restricted documents are never even searched. |
 | **Outdated-document handling** | Syllabus versions are grouped by course; older versions get `superseded_by` and are excluded in SQL unless the question names a year. The prompt includes today's date. |
-| **Evaluation** | 54-question test set (course facts, policies, exact references, versions, permission pairs, unanswerable, ambiguous) scored on hit@5, answer/refuse decision, citation correctness, outdated citations, leaks, and whether ambiguous answers name their source course. |
+| **Evaluation** | 58-question test set (course facts, policies, exact references, versions, permission pairs, unanswerable, ambiguous, programme cohorts) scored on hit@5, answer/refuse decision, citation correctness, outdated citations, leaks, and whether ambiguous answers name their source course. |
+| **Cohort-aware programme answers** | A programme syllabus applies to students who start in its term, so a student who names their start year gets that version, with a warning that later cohorts follow a newer one. |
+| **Robust LLM output** | The JSON reply is parsed up to the first complete object, and an unparseable reply is retried once before falling back to "I don't know". |
 | **Course-scoped answers** | A syllabus states rules for one course, so when a question names no course, the answer says which course(s) a rule comes from and that others may differ. |
 | **Tracing & monitoring** | Langfuse traces every request (search → rerank → LLM with tokens and cost) and scores each outcome; a dashboard tracks refusals by reason, latency per step and cost. |
 | **Local or API models** | `MODEL_BACKEND=local\|api`: the same models run on the laptop or via API, so the deployed backend needs 83 MB of memory instead of 4–5 GB. |
@@ -83,6 +86,8 @@ flowchart LR
 | Before scaling | 37 | 100% | 100% | 100% | – |
 | After scaling, first run | 1,112 | 97.6% | 98.1% | 97.6% | – |
 | **After the fix** | **1,112** | **100%** | **100%** | **100%** | **2/2** |
+| + programme syllabi, first run | 1,296 | 100% | 98.3% | 100% | 2/2 |
+| **+ JSON parsing fix** | **1,296** | **100%** | **100%** | **100%** | **2/2** |
 
 The test set was drafted from the documents' own wording, so these scores are an upper bound; questions phrased the way students actually ask are the next step.
 
@@ -134,7 +139,7 @@ uvicorn main:app --app-dir app                         # backend: http://127.0.0
 streamlit run frontend/app.py                          # frontend: http://localhost:8501
 
 python -m pytest tests -v                              # access-control tests
-python eval/run_eval.py                                # 54-question evaluation
+python eval/run_eval.py                                # 58-question evaluation
 ```
 
 ## Deployment
@@ -142,7 +147,7 @@ python eval/run_eval.py                                # 54-question evaluation
 | Part | Service | Notes |
 | --- | --- | --- |
 | Backend | Render (free, Frankfurt) | `requirements-server.txt` (13 packages, no torch); `MODEL_BACKEND=api` |
-| Database | Neon (free, EU) | Copied from local with `ingestion/copy_to_neon.py`, vectors included; 162 MB of the free 1 GB |
+| Database | Neon (free, EU) | Copied from local with `ingestion/copy_to_neon.py`, vectors included; 212 MB of the free 1 GB |
 | Frontend | Streamlit Community Cloud | `API_URL` secret points to the backend |
 
 **Running cost:** about $0.50/month at 1,000 questions (LLM ≈ $0.0004 per question; embeddings and reranking a few cents). An always-on backend instead of the sleeping free tier would add about $7/month.
@@ -153,9 +158,9 @@ python eval/run_eval.py                                # 54-question evaluation
 - **Single-turn:** each question is answered on its own, without conversation memory.
 - **Test set wording:** questions were drafted from the documents, so real-world phrasing may perform worse.
 - **Staff documents are synthetic,** written to test access control; they are not real JU documents.
-- **English-taught courses only:** the ~1,200 Swedish-taught courses per year (Swedish syllabi) and programme syllabi are not included yet.
+- **English-taught only:** the ~1,200 Swedish-taught courses per year (Swedish syllabi) are not included yet.
 - **Partly Swedish sources:** some regulations are bilingual; answers are always in English.
-- **7 syllabi lack a parsed `valid_from` date** (their header is a table); a year-based fallback still orders their versions correctly.
+- **11 syllabi lack a parsed `valid_from` date** (7 course syllabi whose header is a table, 4 programme syllabi with no start term); a year-based fallback still orders their versions correctly.
 - **No rate limiting** on the public demo yet; costs are capped by provider spend limits instead.
 
 ## Data
