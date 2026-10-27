@@ -46,7 +46,11 @@ def main():
             in_force = [d for d in members if effective_date(d[4], d[5]) <= today]
             if not in_force:
                 continue
-            current = max(in_force, key=lambda d: effective_date(d[4], d[5]))
+            # newest date wins; among copies with the same date (one programme
+            # offered as several occasions), prefer the file without a "_2" suffix
+            current = max(in_force, key=lambda d: (effective_date(d[4], d[5]),
+                                                   not d[1].removesuffix(".pdf")[-2:-1] == "_",
+                                                   -d[0]))
             for d in in_force:
                 if d[0] != current[0]:
                     conn.execute("UPDATE documents SET superseded_by = %s WHERE id = %s",

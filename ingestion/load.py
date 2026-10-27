@@ -28,6 +28,7 @@ def main():
         by_file.setdefault(c["file"], []).append(c)
 
     with psycopg.connect(os.environ["DATABASE_URL"]) as conn:
+        kept = replaced = 0
         with conn.cursor() as cur:
             for file, doc_chunks in by_file.items():
                 d = doc_chunks[0]
@@ -43,7 +44,17 @@ def main():
                 """, values)
                 doc_id = cur.fetchone()[0]
 
-                # replace this document's chunks
+                # unchanged document? keep its chunks, and so its embeddings
+                cur.execute("SELECT chunk_id, embed_text FROM chunks "
+                            "WHERE document_id = %s ORDER BY chunk_id", (doc_id,))
+                existing = cur.fetchall()
+                new = sorted((c["chunk_id"], c["embed_text"]) for c in doc_chunks)
+                if existing == new:
+                    kept += 1
+                    continue
+
+                # changed or new: replace this document's chunks
+                replaced += 1
                 cur.execute("DELETE FROM chunks WHERE document_id = %s", (doc_id,))
                 cur.executemany("""
                     INSERT INTO chunks (document_id, chunk_id, section, page_start,
@@ -56,7 +67,8 @@ def main():
 
         docs = conn.execute("SELECT count(*) FROM documents").fetchone()[0]
         n = conn.execute("SELECT count(*) FROM chunks").fetchone()[0]
-        print(f"Loaded {n} chunks from {docs} documents into Postgres")
+        print(f"Loaded {n} chunks from {docs} documents into Postgres "
+              f"({replaced} documents (re)loaded, {kept} unchanged and kept)")
 
 
 if __name__ == "__main__":

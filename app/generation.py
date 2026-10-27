@@ -38,6 +38,9 @@ Rules:
 - A course syllabus states rules for ONE course only. If the question does not
   name a course and your answer relies on a syllabus, say which course(s) the
   rule comes from (name and code), and that other courses may differ.
+- A programme syllabus applies to students who START the programme in the term
+  it states ("valid from"). If the student says when they started, answer from
+  that version and say which programme start it applies to.
 - Some passages are in Swedish; answer in English.
 - Be brief: at most 4 sentences.
 
@@ -106,9 +109,17 @@ def format_passages(passages: list[dict]) -> str:
 
 
 def parse_json(text: str) -> dict:
-    """Models sometimes wrap JSON in ``` fences or add words; find the {...}."""
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    return json.loads(match.group(0)) if match else {}
+    """Read the first complete JSON object in the reply.
+
+    Models sometimes wrap JSON in ``` fences or add words before or after it.
+    raw_decode() stops at the end of the first object, so trailing text
+    (even text containing braces) doesn't break parsing.
+    """
+    start = text.find("{")
+    if start == -1:
+        raise json.JSONDecodeError("no JSON object found", text, 0)
+    obj, _ = json.JSONDecoder().raw_decode(text[start:])
+    return obj if isinstance(obj, dict) else {}
 
 
 def idk(reason: str, passages=None) -> dict:
@@ -142,11 +153,17 @@ def _answer(question: str, levels=("public", "student")) -> dict:
         return idk("low_retrieval_score", passages)
 
     system = SYSTEM_PROMPT.replace("{today}", date.today().isoformat())
-    raw = call_llm(system, f"Passages:\n\n{format_passages(passages)}"
-                                  f"\n\nQuestion: {question}")
-    try:
-        data = parse_json(raw)
-    except json.JSONDecodeError:
+    user = f"Passages:\n\n{format_passages(passages)}\n\nQuestion: {question}"
+    data = None
+    for attempt in range(2):   # one retry if the reply isn't valid JSON
+        raw = call_llm(system, user if attempt == 0 else
+                       user + "\n\nReply with one valid JSON object only, nothing else.")
+        try:
+            data = parse_json(raw)
+            break
+        except json.JSONDecodeError:
+            continue
+    if data is None:
         return idk("unparseable_llm_output", passages)
 
     text = (data.get("answer") or "").strip()
