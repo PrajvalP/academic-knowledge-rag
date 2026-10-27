@@ -30,7 +30,8 @@ def login(client, role: str) -> dict:
 
 
 def test_health(client):
-    assert client.get("/health").json() == {"status": "ok"}
+    body = client.get("/health").json()
+    assert body["status"] == "ok" and body["model_backend"] in ("local", "api")
 
 
 def test_ask_requires_login(client):

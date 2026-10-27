@@ -8,24 +8,14 @@ Usage: python app/rerank.py "Can I take TDIS22 without machine learning?"
 """
 import sys
 import time
-from functools import lru_cache
 from pathlib import Path
 
-import torch
-from sentence_transformers import CrossEncoder
-
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from retrieval import get_model, search  # noqa: E402
+from models import rerank_scores, warm_up  # noqa: E402
+from retrieval import search  # noqa: E402
 from tracing import get_client, observe  # noqa: E402
 
-RERANK_MODEL = "BAAI/bge-reranker-v2-m3"   # multilingual, pairs with bge-m3
 TOP_K = 5
-
-
-@lru_cache(maxsize=1)
-def get_reranker() -> CrossEncoder:
-    device = "mps" if torch.backends.mps.is_available() else "cpu"
-    return CrossEncoder(RERANK_MODEL, device=device, max_length=512)
 
 
 def passage(r: dict) -> str:
@@ -43,7 +33,7 @@ def rerank(question: str, results: list[dict], top_k: int = TOP_K) -> list[dict]
     """
     if not results:
         return []
-    scores = get_reranker().predict([(question, passage(r)) for r in results])
+    scores = rerank_scores(question, [passage(r) for r in results])   # local or API
     for r, s in zip(results, scores):
         r["rerank_score"] = float(s)
     top = sorted(results, key=lambda r: r["rerank_score"], reverse=True)[:top_k]
@@ -56,7 +46,7 @@ def rerank(question: str, results: list[dict], top_k: int = TOP_K) -> list[dict]
 
 if __name__ == "__main__":
     question = " ".join(sys.argv[1:]) or "Can I take TDIS22 without machine learning?"
-    get_model(); get_reranker()          # load both first, so timing excludes loading
+    warm_up()                            # load local models first, so timing excludes loading
 
     t0 = time.perf_counter()
     candidates = search(question, top_n=20)
