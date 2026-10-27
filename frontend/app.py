@@ -12,8 +12,8 @@ import os
 import requests
 import streamlit as st
 
-API_URL = os.environ.get("API_URL", "http://127.0.0.1:8000")
-TIMEOUT = 60   # seconds; the LLM call can take a few seconds
+API_URL = os.environ.get("API_URL", "http://127.0.0.1:8000").rstrip("/")
+TIMEOUT = 120  # seconds; a sleeping free server can take ~1 min to wake up
 
 st.set_page_config(page_title="Academic Knowledge Assistant", page_icon="🎓")
 
@@ -28,6 +28,10 @@ def api(method: str, path: str, **kwargs):
     try:
         return requests.request(method, f"{API_URL}{path}", headers=headers,
                                 timeout=TIMEOUT, **kwargs)
+    except requests.Timeout:
+        st.warning("The server is waking up (free hosting sleeps when unused). "
+                   "Please try again in a minute.")
+        st.stop()
     except requests.ConnectionError:
         st.error(f"Can't reach the backend at {API_URL}. Is it running?")
         st.stop()
@@ -47,6 +51,8 @@ def login_page():
     st.title("🎓 Academic Knowledge Assistant")
     st.caption("Ask questions about Jönköping University course syllabi and academic "
                "policies. Every answer cites its source.")
+    st.caption("Free hosting: the first request after a quiet period can take up to a "
+               "minute while the server wakes up.")
     if msg := st.session_state.pop("flash", None):
         st.info(msg)
 
