@@ -17,3 +17,6 @@ logs/
 .vscode/
 .claude/
 .agents/
+
+# harvester progress (local working file)
+data/raw/harvest_state.json

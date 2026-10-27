@@ -1,6 +1,6 @@
 # academic-knowledge-rag
 
-A production-grade RAG assistant that answers questions about Jönköping University course syllabi and academic policies. **Every answer cites its source document and page**, users only see documents their role allows, outdated syllabus versions are never used by mistake, and when the documents don't contain the answer it says **"I don't know"** instead of guessing.
+A production-grade RAG assistant that answers questions about Jönköping University course syllabi and academic policies, covering **all 778 English-taught courses (2024–2026)**. **Every answer cites its source document and page**, users only see documents their role allows, outdated syllabus versions are never used by mistake, and when the documents don't contain the answer it says **"I don't know"** instead of guessing.
 
 **Live demo:** https://academic-knowledge-rag-vkuqfq2bwaznayuodq474y.streamlit.app/  
 **API docs:** https://academic-knowledge-rag.onrender.com/docs
@@ -20,6 +20,7 @@ A production-grade RAG assistant that answers questions about Jönköping Univer
 | *What did the 2024 TARI29 syllabus say about grading?* | Naming a year retrieves the old version, with a warning |
 | *What share of points do examiners require for grade 5?* | Student: "I don't know". Professor: 85% (staff-only document) |
 | *What is the best pizza place in Jönköping?* | "I don't know" without calling the LLM |
+| *How many re-exam attempts do I get?* | No course named, so it says which courses the rule comes from and that others may differ |
 
 ---
 
@@ -40,7 +41,7 @@ flowchart LR
     DB --- F
 ```
 
-1. **Ingestion:** 37 documents (21 syllabi, 12 policies, 4 synthetic staff documents) are extracted with Docling, keeping page numbers and headings. Scanned pages fall back to OCR. Text is split under its headings into 521 chunks, each prefixed with course, year and section before embedding.
+1. **Ingestion:** 1,112 documents (1,096 course syllabi, 12 policies, 4 synthetic staff documents) are extracted with Docling, keeping page numbers and headings. Scanned pages fall back to OCR. Text is split under its headings into 9,969 chunks, each prefixed with course, year and section before embedding. A harvester collects every English-taught syllabus from JU's course catalogue, politely (one request per second) and resumably, skipping duplicates by SHA-256.
 2. **Hybrid search:** semantic search (pgvector), Postgres full-text search and a course-code match each return 20 candidates; Reciprocal Rank Fusion merges them.
 3. **Reranking:** a cross-encoder (`bge-reranker-v2-m3`) rescores the candidates by reading question and passage together; the top 5 go to the LLM.
 4. **Two gates against hallucination:** if the best passage scores below 0.3, the LLM is never called. If the LLM's answer has no valid citation, it's replaced with "I don't know". Citations are checked in code, not trusted from the prompt.
@@ -51,7 +52,8 @@ flowchart LR
 | --- | --- |
 | **Role-based access control** | FastAPI + bcrypt passwords + JWT tokens. The user's role becomes a filter **inside the SQL query**, so restricted documents are never even searched. |
 | **Outdated-document handling** | Syllabus versions are grouped by course; older versions get `superseded_by` and are excluded in SQL unless the question names a year. The prompt includes today's date. |
-| **Evaluation** | 53-question test set (course facts, policies, exact references, versions, permission pairs, unanswerable) scored on hit@5, answer/refuse decision, citation correctness, outdated citations and leaks. |
+| **Evaluation** | 54-question test set (course facts, policies, exact references, versions, permission pairs, unanswerable, ambiguous) scored on hit@5, answer/refuse decision, citation correctness, outdated citations, leaks, and whether ambiguous answers name their source course. |
+| **Course-scoped answers** | A syllabus states rules for one course, so when a question names no course, the answer says which course(s) a rule comes from and that others may differ. |
 | **Tracing & monitoring** | Langfuse traces every request (search → rerank → LLM with tokens and cost) and scores each outcome; a dashboard tracks refusals by reason, latency per step and cost. |
 | **Local or API models** | `MODEL_BACKEND=local\|api`: the same models run on the laptop or via API, so the deployed backend needs 83 MB of memory instead of 4–5 GB. |
 
@@ -73,6 +75,14 @@ flowchart LR
 | Local database + local models | 9/9 | 100% | 2.5 |
 | Local database + API models | 9/9 | 100% | 3.6 |
 | **Neon + API models (production)** | **9/9** | **100%** | **4.4** |
+
+**Scaling from 37 to 1,112 documents.** Thirty times more documents means many more near-miss passages. The first run showed two new failure types, both caused by the bigger knowledge base: a general question became ambiguous (many courses now have a final project), and a formerly unanswerable question ("How many re-exam attempts do I get?") now matched one course's syllabus, which the system presented as a general rule. A prompt rule and an updated test set fixed both:
+
+| Run | Documents | hit@5 | Decision | Citation | Ambiguous answers naming their course |
+| --- | --- | --- | --- | --- | --- |
+| Before scaling | 37 | 100% | 100% | 100% | – |
+| After scaling, first run | 1,112 | 97.6% | 98.1% | 97.6% | – |
+| **After the fix** | **1,112** | **100%** | **100%** | **100%** | **2/2** |
 
 The test set was drafted from the documents' own wording, so these scores are an upper bound; questions phrased the way students actually ask are the next step.
 
@@ -96,7 +106,7 @@ The test set was drafted from the documents' own wording, so these scores are an
 
 ```
 app/            FastAPI backend: retrieval, rerank, generation, auth, models, tracing
-ingestion/      extract → chunk → load → embed → versions; schema, seeding, copy to Neon
+ingestion/      harvest → extract → chunk → load → embed → versions; schema, seeding, copy to Neon
 eval/           test set, evaluation and backend-comparison scripts, saved results
 frontend/       Streamlit app
 tests/          API and access-control tests
@@ -113,7 +123,8 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env                                   # then fill in your keys
 
-# build the knowledge base (PDFs listed in data/manifest.csv go in data/raw/)
+# build the knowledge base: download the PDFs listed in data/manifest.csv (~1 hour)
+python ingestion/harvest_courses.py
 python ingestion/extract.py && python ingestion/chunk.py
 docker exec -i akr-db psql -U akr -d akr < ingestion/schema.sql
 python ingestion/load.py && python ingestion/embed.py && python ingestion/versions.py
@@ -123,7 +134,7 @@ uvicorn main:app --app-dir app                         # backend: http://127.0.0
 streamlit run frontend/app.py                          # frontend: http://localhost:8501
 
 python -m pytest tests -v                              # access-control tests
-python eval/run_eval.py                                # 53-question evaluation
+python eval/run_eval.py                                # 54-question evaluation
 ```
 
 ## Deployment
@@ -131,7 +142,7 @@ python eval/run_eval.py                                # 53-question evaluation
 | Part | Service | Notes |
 | --- | --- | --- |
 | Backend | Render (free, Frankfurt) | `requirements-server.txt` (13 packages, no torch); `MODEL_BACKEND=api` |
-| Database | Neon (free, EU) | Copied from local with `ingestion/copy_to_neon.py`, vectors included |
+| Database | Neon (free, EU) | Copied from local with `ingestion/copy_to_neon.py`, vectors included; 162 MB of the free 1 GB |
 | Frontend | Streamlit Community Cloud | `API_URL` secret points to the backend |
 
 **Running cost:** about $0.50/month at 1,000 questions (LLM ≈ $0.0004 per question; embeddings and reranking a few cents). An always-on backend instead of the sleeping free tier would add about $7/month.
@@ -142,7 +153,9 @@ python eval/run_eval.py                                # 53-question evaluation
 - **Single-turn:** each question is answered on its own, without conversation memory.
 - **Test set wording:** questions were drafted from the documents, so real-world phrasing may perform worse.
 - **Staff documents are synthetic,** written to test access control; they are not real JU documents.
+- **English-taught courses only:** the ~1,200 Swedish-taught courses per year (Swedish syllabi) and programme syllabi are not included yet.
 - **Partly Swedish sources:** some regulations are bilingual; answers are always in English.
+- **7 syllabi lack a parsed `valid_from` date** (their header is a table); a year-based fallback still orders their versions correctly.
 - **No rate limiting** on the public demo yet; costs are capped by provider spend limits instead.
 
 ## Data
