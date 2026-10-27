@@ -99,7 +99,7 @@ def search(question: str, levels=("public", "student"), top_n: int = 20) -> list
                 return []
             cur.execute("""
                 SELECT c.id, c.chunk_id, c.section, c.page_start, c.page_end, c.text,
-                       d.title, d.course_code, d.year, d.valid_from, d.source_url,
+                       d.title, d.doc_type, d.course_code, d.year, d.valid_from, d.source_url,
                        d.superseded_by IS NOT NULL AS superseded
                 FROM chunks c JOIN documents d ON d.id = c.document_id
                 WHERE c.id = ANY(%s)

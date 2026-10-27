@@ -187,7 +187,13 @@ def _answer(question: str, levels=("public", "student")) -> dict:
         "url": passages[n - 1]["source_url"],
     } for n in valid]
     warnings = []
-    if any(passages[n - 1].get("superseded") for n in valid):
+    old = [passages[n - 1] for n in valid if passages[n - 1].get("superseded")]
+    if any(p.get("doc_type") == "programme" for p in old):
+        # An older programme syllabus is still the right one for that cohort.
+        warnings.append("This answer uses the programme syllabus for an earlier "
+                        "start year. It applies to students who started then; "
+                        "later cohorts follow a newer version.")
+    if any(p.get("doc_type") != "programme" for p in old):
         warnings.append("This answer uses an older version of a document; "
                         "check the current version before relying on it.")
     return {"answer": text, "citations": citations, "status": "answered",
